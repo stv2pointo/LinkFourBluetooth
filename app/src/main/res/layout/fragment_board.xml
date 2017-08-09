@@ -3,7 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.stvjuliengmail.linkfourbluetooth.Board">
+    tools:context="com.stvjuliengmail.linkfourbluetooth.Board"
+    android:background="@drawable/grey_bg"
+    android:padding="5dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -129,7 +131,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            android:background="@color/colorBoard"
+            android:background="@drawable/woodgrain"
             android:clickable="true"
             android:orientation="vertical">
             <ImageView
@@ -174,7 +176,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            android:background="@color/colorBoard"
+            android:background="@drawable/woodgrain"
             android:clickable="true"
             android:orientation="vertical">
             <ImageView
@@ -219,7 +221,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            android:background="@color/colorBoard"
+            android:background="@drawable/woodgrain"
             android:clickable="true"
             android:orientation="vertical">
             <ImageView
@@ -264,7 +266,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            android:background="@color/colorBoard"
+            android:background="@drawable/woodgrain"
             android:clickable="true"
             android:orientation="vertical">
             <ImageView
@@ -309,7 +311,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            android:background="@color/colorBoard"
+            android:background="@drawable/woodgrain"
             android:clickable="true"
             android:orientation="vertical">
             <ImageView
@@ -354,7 +356,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            android:background="@color/colorBoard"
+            android:background="@drawable/woodgrain"
             android:clickable="true"
             android:orientation="vertical">
             <ImageView
@@ -400,7 +402,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            android:background="@color/colorBoard"
+            android:background="@drawable/woodgrain"
             android:clickable="true"
             android:orientation="vertical">
             <ImageView
