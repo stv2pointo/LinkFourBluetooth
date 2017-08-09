@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragContainer, new HostJoin(), "HJ")
+                        .replace(R.id.fragContainer, new Board(),"BF")
                         .addToBackStack(null)
                         .commit();
             }

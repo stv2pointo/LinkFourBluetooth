@@ -50,11 +50,5 @@
         android:layout_height="wrap_content"
         android:text="Scan"
         />
-    <Button
-        android:id="@+id/button_showThyself"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Expose me to bluetoothery"
-        />
 </LinearLayout>
 

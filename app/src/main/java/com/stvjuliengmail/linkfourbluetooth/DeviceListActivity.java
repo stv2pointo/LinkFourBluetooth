@@ -55,13 +55,6 @@ public class DeviceListActivity extends Activity {
                 v.setVisibility(View.GONE);
             }
         });
-        Button button_showThyself = (Button) findViewById(R.id.button_showThyself);
-        button_showThyself.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                enableDisc();
-            }
-        });
 
         // Initialize array adapters. One for already paired devices and
         // one for newly discovered devices

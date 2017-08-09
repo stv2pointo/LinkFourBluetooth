@@ -56,6 +56,7 @@ public class Board extends Fragment implements View.OnTouchListener{
     int[][] cells;
     View rootView;
     LinearLayout colA, colB, colC,colD,colE,colF,colG;
+    LinearLayout buttons_view, scores_view;
     private final int BLACK=1,RED=2;
     int currentPlayer = BLACK;
     int blackScore = 0, redScore = 0;
@@ -70,6 +71,7 @@ public class Board extends Fragment implements View.OnTouchListener{
     private ListView mConversationView;
     private EditText mOutEditText;
     private Button mSendButton;
+    Button btnHost, btnJoin;
 
     //Name of the connected device
     private String mConnectedDeviceName = null;
@@ -89,7 +91,7 @@ public class Board extends Fragment implements View.OnTouchListener{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+        //setHasOptionsMenu(true);
 
         //for tracking filled spaces
         cells = new int[COLUMNS][ROWS];
@@ -153,7 +155,24 @@ public class Board extends Fragment implements View.OnTouchListener{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        rootView = (View) inflater.inflate(R.layout.fragment_board, container, false);
+        rootView = inflater.inflate(R.layout.fragment_board, container, false);
+        btnHost = (Button) rootView.findViewById(R.id.btnHost);
+        btnJoin = (Button) rootView.findViewById(R.id.btnJoin);
+
+        btnHost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(),"Host", Toast.LENGTH_SHORT).show();
+                connectPlayer1();
+            }
+        });
+        btnJoin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(),"Join", Toast.LENGTH_SHORT).show();
+                connectPlayer2();
+            }
+        });
         colA = (LinearLayout) rootView.findViewById(R.id.colA);
         colA.setOnTouchListener(this);
         colB = (LinearLayout) rootView.findViewById(R.id.colB);
@@ -168,9 +187,10 @@ public class Board extends Fragment implements View.OnTouchListener{
         colF.setOnTouchListener(this);
         colG = (LinearLayout) rootView.findViewById(R.id.colG);
         colG.setOnTouchListener(this);
+        buttons_view = (LinearLayout) rootView.findViewById(R.id.buttons_view);
+        scores_view = (LinearLayout) rootView.findViewById(R.id.scores_view);
         return rootView;
 
-//        return inflater.inflate(R.layout.fragment_btboard, container, false);
     }
 
     @Override
@@ -583,10 +603,18 @@ public class Board extends Fragment implements View.OnTouchListener{
 //        }
 //        return false;
 //    }
-
+    public void connectPlayer1() {
+        ensureDiscoverable();
+        currentPlayer = BLACK;
+        unlockBoard();
+        buttons_view.setVisibility(View.GONE);
+        scores_view.setVisibility(View.VISIBLE);
+    }
     public void connectPlayer2(){
         currentPlayer = RED;
         lockBoard();
+        buttons_view.setVisibility(View.GONE);
+        scores_view.setVisibility(View.VISIBLE);
         Intent serverIntent = new Intent(getActivity(), DeviceListActivity.class);
         startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_INSECURE);
     }
