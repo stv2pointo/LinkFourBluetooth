@@ -13,6 +13,7 @@ public interface Constants {
     public static final int MESSAGE_TOAST = 5;
     public static final int MOVE_SEND = 6;
     public static final int MOVE_RECEIVE = 7;
+    public static final int MESSAGE_USER_NAME = 8;
 
     // Key names received from the BluetoothChatService Handler
     public static final String DEVICE_NAME = "device_name";

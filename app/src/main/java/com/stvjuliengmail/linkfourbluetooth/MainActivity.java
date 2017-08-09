@@ -13,12 +13,14 @@ import android.os.Build;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.Set;
@@ -26,6 +28,7 @@ import java.util.Set;
 public class MainActivity extends AppCompatActivity {
 
     final Handler vHandler = new Handler();
+    String userName = "", opponent = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         decorView.setSystemUiVisibility(uiOptions);
         setContentView(R.layout.activity_main);
 
+        // don't know why, but won't poll for devices without this
         checkBTPermissions();
 
         getSupportFragmentManager().beginTransaction()
@@ -47,13 +51,15 @@ public class MainActivity extends AppCompatActivity {
                 .addToBackStack(null)
                 .commit();
 
+
         vHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragContainer, new Board(),"BF")
-                        .addToBackStack(null)
-                        .commit();
+//                getSupportFragmentManager().beginTransaction()
+//                        .replace(R.id.fragContainer, new Board(),"BF")
+//                        .addToBackStack(null)
+//                        .commit();
+                promptUserName();
             }
         },1500);
 
@@ -83,42 +89,42 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void showHost() {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragContainer, new Board(),"BF")
-                .addToBackStack(null)
-                .commit();
+//    public void showHost() {
+//        getSupportFragmentManager().beginTransaction()
+//                .replace(R.id.fragContainer, new Board(),"BF")
+//                .addToBackStack(null)
+//                .commit();
+//
+//        Board board = (Board) getSupportFragmentManager().findFragmentByTag("BF");
+//        if(board != null){
+//            board.ensureDiscoverable();
+//        }
+//
+//
+//    }
 
-        Board board = (Board) getSupportFragmentManager().findFragmentByTag("BF");
-        if(board != null){
-            board.ensureDiscoverable();
-        }
-
-
-    }
-
-    public void loadBoard() {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragContainer, new Board(),"BF")
-                .addToBackStack(null)
-                .commit();
-    }
-    public void join() {
-        vHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Board board = (Board) getSupportFragmentManager().findFragmentByTag("BF");
-                if(board != null){
-                    Log.d("test", "board is not null");
-                    board.connectPlayer2();
-                }
-                else{
-                    Log.d("test", "board is null");
-                }
-            }
-        },3500);
-
-    }
+//    public void loadBoard() {
+//        getSupportFragmentManager().beginTransaction()
+//                .replace(R.id.fragContainer, new Board(),"BF")
+//                .addToBackStack(null)
+//                .commit();
+//    }
+//    public void join() {
+//        vHandler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                Board board = (Board) getSupportFragmentManager().findFragmentByTag("BF");
+//                if(board != null){
+//                    Log.d("test", "board is not null");
+//                    board.connectPlayer2();
+//                }
+//                else{
+//                    Log.d("test", "board is null");
+//                }
+//            }
+//        },3500);
+//
+//    }
 
     /**
      * this method is required for all devices running api23 +
@@ -136,5 +142,40 @@ public class MainActivity extends AppCompatActivity {
         else {
             Log.d("test", "lollipop or less");
         }
+    }
+
+    private void promptUserName() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("What's your handle?");
+
+// Set up the input
+        final EditText input = new EditText(this);
+// Specify the type of input expected
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+        builder.setCancelable(false);
+
+// Set up the buttons
+        builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                userName = input.getText().toString();
+                loadBoard();
+            }
+        });
+//        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.cancel();
+//            }
+//        });
+
+        builder.show();
+    }
+    public void loadBoard() {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragContainer, new Board(),"BF")
+                .addToBackStack(null)
+                .commit();
     }
 }
