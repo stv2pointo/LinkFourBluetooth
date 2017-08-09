@@ -51,7 +51,7 @@ public class Board extends Fragment implements View.OnTouchListener{
 //        mgr.hideSoftInputFromWindow(mEditText.getWindowToken(), 0);
 
     //game board stuff
-    //final Handler handler = new Handler();
+    final Handler paintHandler = new Handler();
     final int COLUMNS = 7, ROWS = 6;
     int[][] cells;
     View rootView;
@@ -61,6 +61,7 @@ public class Board extends Fragment implements View.OnTouchListener{
     int currentPlayer = BLACK;
     int blackScore = 0, redScore = 0;
     //private boolean p1turn = true;
+
 
     // Intent request codes
     private static final int REQUEST_CONNECT_DEVICE_SECURE = 1;
@@ -418,8 +419,12 @@ public class Board extends Fragment implements View.OnTouchListener{
                     //hijack the chat stream for connect4 moves
                     if(isMove(writeMessage)){
                         makeMove(Integer.parseInt(writeMessage.substring(writeMessage.length() - 1)));
-                        lockBoard();
-                        checkForWin();
+                            lockBoard();
+                            if(checkForWin()) {
+                                chickenDinner();
+                            }
+
+
 
 
 
@@ -439,6 +444,7 @@ public class Board extends Fragment implements View.OnTouchListener{
                     break;
 
                 case Constants.MESSAGE_READ:
+
                     byte[] readBuf = (byte[]) msg.obj;
                     // construct a string from the valid bytes in the buffer
                     String readMessage = new String(readBuf, 0, msg.arg1);
@@ -446,12 +452,30 @@ public class Board extends Fragment implements View.OnTouchListener{
                     Log.d("test", "mconnectedDevice: " + mConnectedDeviceName);
                     Log.d("test", "msg.tostring(): " + msg.toString());
                     if(isMove(readMessage)){
-                        //unlockBoard();
+
+
                         toggleTurn();
                         makeMove(Integer.parseInt(readMessage.substring(readMessage.length()-1)));
-                        checkForWin();
-                        toggleTurn();
-                        unlockBoard();
+
+                            if(checkForWin()) {
+                                chickenDinner();
+                                paintHandler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        unlockBoard();
+                                        toggleTurn();
+                                    }
+                                },2500);
+                            }
+                            else {
+                                unlockBoard();
+                                toggleTurn();
+                            }
+
+
+
+
+
 
 
 //                        int col = Integer.parseInt(readMessage.substring(readMessage.length()-1));
@@ -914,15 +938,34 @@ public class Board extends Fragment implements View.OnTouchListener{
 //        return false;
     }
 
-    public void checkForWin() {
+    public boolean checkForWin() {
+//        paintHandler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                checkVertical();
+//                checkHorizontal();
+//                checkDiagLeft();
+//                checkDiagRight();
+//            }
+//        },2200);
 
-        checkVertical();
-        checkHorizontal();
-        checkDiagLeft();
-        checkDiagRight();
+        if(checkVertical()) {
+            return true;
+        }
+        if(checkHorizontal()) {
+            return true;
+        }
+        if(checkDiagLeft()) {
+            return true;
+        }
+        if(checkDiagRight()) {
+            return true;
+        }
+        return false;
+
     }
 
-    public void checkVertical() {
+    public boolean checkVertical() {
         int numContiguous = 0;
         int prior = -1;
         for (int i=0;i<COLUMNS;i++) {
@@ -940,14 +983,16 @@ public class Board extends Fragment implements View.OnTouchListener{
                     prior = 0;
                 }
                 if (numContiguous >= 4) {
-                    chickenDinner();
+//                    chickenDinner();
+                    return true;
                 }
 
             }
         }
+        return false;
     }
 
-    public void checkHorizontal() {
+    public boolean checkHorizontal() {
         int numContiguous = 0;
         int prior = -1;
         for (int i=0;i<ROWS;i++) {
@@ -965,14 +1010,16 @@ public class Board extends Fragment implements View.OnTouchListener{
                     prior = 0;
                 }
                 if (numContiguous >= 4) {
-                    chickenDinner();
+//                    chickenDinner();
+                    return true;
                 }
 
             }
         }
+        return false;
     }
 
-    public void checkDiagLeft() {
+    public boolean checkDiagLeft() {
         for (int i = 0; i < 3; i++)
         {
             for (int j = 3; j < 7; j++)
@@ -981,13 +1028,15 @@ public class Board extends Fragment implements View.OnTouchListener{
                 {
                     if (cells[j - 3][i + 3] == currentPlayer && cells[j - 2][i + 2] == currentPlayer && cells[j - 1][i + 1] == currentPlayer)
                     {
-                        chickenDinner();
+//                        chickenDinner();
+                        return true;
                     }
                 }
             }
         }
+        return false;
     }
-    public void checkDiagRight() {
+    public boolean checkDiagRight() {
         for (int i = 0; i < 3; i++)
         {
             for (int j = 0; j < 4; j++)
@@ -996,11 +1045,13 @@ public class Board extends Fragment implements View.OnTouchListener{
                 {
                     if (cells[j + 3][i + 3] == currentPlayer && cells[j + 2][i + 2] == currentPlayer && cells[j + 1][i + 1] == currentPlayer)
                     {
-                        chickenDinner();
+//                        chickenDinner();
+                        return true;
                     }
                 }
             }
         }
+        return false;
     }
 
     public void chickenDinner() {
@@ -1018,101 +1069,108 @@ public class Board extends Fragment implements View.OnTouchListener{
     }
 
     public void resetGame() {
-        for (int i=0;i<COLUMNS;i++) {
-            for(int j=0;j<ROWS;j++) {
-                cells[i][j] = 0;
-            }
-        }
-        // maybe these can be pushed into an array, then iterate through generically
-        ImageView iv = (ImageView) rootView.findViewById(R.id.imvA1);
-        iv.setImageResource(R.drawable.circle_button);
-        iv = (ImageView) rootView.findViewById(R.id.imvA2);
-        iv.setImageResource(R.drawable.circle_button);
-        iv = (ImageView) rootView.findViewById(R.id.imvA3);
-        iv.setImageResource(R.drawable.circle_button);
-        iv = (ImageView) rootView.findViewById(R.id.imvA4);
-        iv.setImageResource(R.drawable.circle_button);
-        iv = (ImageView) rootView.findViewById(R.id.imvA5);
-        iv.setImageResource(R.drawable.circle_button);
-        iv = (ImageView) rootView.findViewById(R.id.imvA6);
-        iv.setImageResource(R.drawable.circle_button);
-        iv = (ImageView) rootView.findViewById(R.id.imvB1);
-        iv.setImageResource(R.drawable.circle_button);
-        iv = (ImageView) rootView.findViewById(R.id.imvB2);
-        iv.setImageResource(R.drawable.circle_button);
-        iv = (ImageView) rootView.findViewById(R.id.imvB3);
-        iv.setImageResource(R.drawable.circle_button);
-        iv = (ImageView) rootView.findViewById(R.id.imvB4);
-        iv.setImageResource(R.drawable.circle_button);
-        iv = (ImageView) rootView.findViewById(R.id.imvB5);
-        iv.setImageResource(R.drawable.circle_button);
-        iv = (ImageView) rootView.findViewById(R.id.imvB6);
-        iv.setImageResource(R.drawable.circle_button);
-        iv = (ImageView) rootView.findViewById(R.id.imvC1);
-        iv.setImageResource(R.drawable.circle_button);
-        iv = (ImageView) rootView.findViewById(R.id.imvC2);
-        iv.setImageResource(R.drawable.circle_button);
-        iv = (ImageView) rootView.findViewById(R.id.imvC3);
-        iv.setImageResource(R.drawable.circle_button);
-        iv = (ImageView) rootView.findViewById(R.id.imvC4);
-        iv.setImageResource(R.drawable.circle_button);
-        iv = (ImageView) rootView.findViewById(R.id.imvC5);
-        iv.setImageResource(R.drawable.circle_button);
-        iv = (ImageView) rootView.findViewById(R.id.imvC6);
-        iv.setImageResource(R.drawable.circle_button);
-        iv = (ImageView) rootView.findViewById(R.id.imvD1);
-        iv.setImageResource(R.drawable.circle_button);
-        iv = (ImageView) rootView.findViewById(R.id.imvD2);
-        iv.setImageResource(R.drawable.circle_button);
-        iv = (ImageView) rootView.findViewById(R.id.imvD3);
-        iv.setImageResource(R.drawable.circle_button);
-        iv = (ImageView) rootView.findViewById(R.id.imvD4);
-        iv.setImageResource(R.drawable.circle_button);
-        iv = (ImageView) rootView.findViewById(R.id.imvD5);
-        iv.setImageResource(R.drawable.circle_button);
-        iv = (ImageView) rootView.findViewById(R.id.imvD6);
-        iv.setImageResource(R.drawable.circle_button);
-        iv = (ImageView) rootView.findViewById(R.id.imvE1);
-        iv.setImageResource(R.drawable.circle_button);
-        iv = (ImageView) rootView.findViewById(R.id.imvE2);
-        iv.setImageResource(R.drawable.circle_button);
-        iv = (ImageView) rootView.findViewById(R.id.imvE3);
-        iv.setImageResource(R.drawable.circle_button);
-        iv = (ImageView) rootView.findViewById(R.id.imvE4);
-        iv.setImageResource(R.drawable.circle_button);
-        iv = (ImageView) rootView.findViewById(R.id.imvE5);
-        iv.setImageResource(R.drawable.circle_button);
-        iv = (ImageView) rootView.findViewById(R.id.imvE6);
-        iv.setImageResource(R.drawable.circle_button);
-        iv = (ImageView) rootView.findViewById(R.id.imvF1);
-        iv.setImageResource(R.drawable.circle_button);
-        iv = (ImageView) rootView.findViewById(R.id.imvF2);
-        iv.setImageResource(R.drawable.circle_button);
-        iv = (ImageView) rootView.findViewById(R.id.imvF3);
-        iv.setImageResource(R.drawable.circle_button);
-        iv = (ImageView) rootView.findViewById(R.id.imvF4);
-        iv.setImageResource(R.drawable.circle_button);
-        iv = (ImageView) rootView.findViewById(R.id.imvF5);
-        iv.setImageResource(R.drawable.circle_button);
-        iv = (ImageView) rootView.findViewById(R.id.imvF6);
-        iv.setImageResource(R.drawable.circle_button);
-        iv = (ImageView) rootView.findViewById(R.id.imvG1);
-        iv.setImageResource(R.drawable.circle_button);
-        iv = (ImageView) rootView.findViewById(R.id.imvG2);
-        iv.setImageResource(R.drawable.circle_button);
-        iv = (ImageView) rootView.findViewById(R.id.imvG3);
-        iv.setImageResource(R.drawable.circle_button);
-        iv = (ImageView) rootView.findViewById(R.id.imvG4);
-        iv.setImageResource(R.drawable.circle_button);
-        iv = (ImageView) rootView.findViewById(R.id.imvG5);
-        iv.setImageResource(R.drawable.circle_button);
-        iv = (ImageView) rootView.findViewById(R.id.imvG6);
-        iv.setImageResource(R.drawable.circle_button);
-
         TextView tvP1Score = (TextView) rootView.findViewById(R.id.tvP1Score);
         TextView tvP2Score = (TextView) rootView.findViewById(R.id.tvP2Score);
         tvP1Score.setText(Integer.toString(blackScore));
         tvP2Score.setText(Integer.toString(redScore));
+        paintHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                for (int i=0;i<COLUMNS;i++) {
+                    for(int j=0;j<ROWS;j++) {
+                        cells[i][j] = 0;
+                    }
+                }
+                // maybe these can be pushed into an array, then iterate through generically
+                ImageView iv = (ImageView) rootView.findViewById(R.id.imvA1);
+                iv.setImageResource(R.drawable.circle_button);
+                iv = (ImageView) rootView.findViewById(R.id.imvA2);
+                iv.setImageResource(R.drawable.circle_button);
+                iv = (ImageView) rootView.findViewById(R.id.imvA3);
+                iv.setImageResource(R.drawable.circle_button);
+                iv = (ImageView) rootView.findViewById(R.id.imvA4);
+                iv.setImageResource(R.drawable.circle_button);
+                iv = (ImageView) rootView.findViewById(R.id.imvA5);
+                iv.setImageResource(R.drawable.circle_button);
+                iv = (ImageView) rootView.findViewById(R.id.imvA6);
+                iv.setImageResource(R.drawable.circle_button);
+                iv = (ImageView) rootView.findViewById(R.id.imvB1);
+                iv.setImageResource(R.drawable.circle_button);
+                iv = (ImageView) rootView.findViewById(R.id.imvB2);
+                iv.setImageResource(R.drawable.circle_button);
+                iv = (ImageView) rootView.findViewById(R.id.imvB3);
+                iv.setImageResource(R.drawable.circle_button);
+                iv = (ImageView) rootView.findViewById(R.id.imvB4);
+                iv.setImageResource(R.drawable.circle_button);
+                iv = (ImageView) rootView.findViewById(R.id.imvB5);
+                iv.setImageResource(R.drawable.circle_button);
+                iv = (ImageView) rootView.findViewById(R.id.imvB6);
+                iv.setImageResource(R.drawable.circle_button);
+                iv = (ImageView) rootView.findViewById(R.id.imvC1);
+                iv.setImageResource(R.drawable.circle_button);
+                iv = (ImageView) rootView.findViewById(R.id.imvC2);
+                iv.setImageResource(R.drawable.circle_button);
+                iv = (ImageView) rootView.findViewById(R.id.imvC3);
+                iv.setImageResource(R.drawable.circle_button);
+                iv = (ImageView) rootView.findViewById(R.id.imvC4);
+                iv.setImageResource(R.drawable.circle_button);
+                iv = (ImageView) rootView.findViewById(R.id.imvC5);
+                iv.setImageResource(R.drawable.circle_button);
+                iv = (ImageView) rootView.findViewById(R.id.imvC6);
+                iv.setImageResource(R.drawable.circle_button);
+                iv = (ImageView) rootView.findViewById(R.id.imvD1);
+                iv.setImageResource(R.drawable.circle_button);
+                iv = (ImageView) rootView.findViewById(R.id.imvD2);
+                iv.setImageResource(R.drawable.circle_button);
+                iv = (ImageView) rootView.findViewById(R.id.imvD3);
+                iv.setImageResource(R.drawable.circle_button);
+                iv = (ImageView) rootView.findViewById(R.id.imvD4);
+                iv.setImageResource(R.drawable.circle_button);
+                iv = (ImageView) rootView.findViewById(R.id.imvD5);
+                iv.setImageResource(R.drawable.circle_button);
+                iv = (ImageView) rootView.findViewById(R.id.imvD6);
+                iv.setImageResource(R.drawable.circle_button);
+                iv = (ImageView) rootView.findViewById(R.id.imvE1);
+                iv.setImageResource(R.drawable.circle_button);
+                iv = (ImageView) rootView.findViewById(R.id.imvE2);
+                iv.setImageResource(R.drawable.circle_button);
+                iv = (ImageView) rootView.findViewById(R.id.imvE3);
+                iv.setImageResource(R.drawable.circle_button);
+                iv = (ImageView) rootView.findViewById(R.id.imvE4);
+                iv.setImageResource(R.drawable.circle_button);
+                iv = (ImageView) rootView.findViewById(R.id.imvE5);
+                iv.setImageResource(R.drawable.circle_button);
+                iv = (ImageView) rootView.findViewById(R.id.imvE6);
+                iv.setImageResource(R.drawable.circle_button);
+                iv = (ImageView) rootView.findViewById(R.id.imvF1);
+                iv.setImageResource(R.drawable.circle_button);
+                iv = (ImageView) rootView.findViewById(R.id.imvF2);
+                iv.setImageResource(R.drawable.circle_button);
+                iv = (ImageView) rootView.findViewById(R.id.imvF3);
+                iv.setImageResource(R.drawable.circle_button);
+                iv = (ImageView) rootView.findViewById(R.id.imvF4);
+                iv.setImageResource(R.drawable.circle_button);
+                iv = (ImageView) rootView.findViewById(R.id.imvF5);
+                iv.setImageResource(R.drawable.circle_button);
+                iv = (ImageView) rootView.findViewById(R.id.imvF6);
+                iv.setImageResource(R.drawable.circle_button);
+                iv = (ImageView) rootView.findViewById(R.id.imvG1);
+                iv.setImageResource(R.drawable.circle_button);
+                iv = (ImageView) rootView.findViewById(R.id.imvG2);
+                iv.setImageResource(R.drawable.circle_button);
+                iv = (ImageView) rootView.findViewById(R.id.imvG3);
+                iv.setImageResource(R.drawable.circle_button);
+                iv = (ImageView) rootView.findViewById(R.id.imvG4);
+                iv.setImageResource(R.drawable.circle_button);
+                iv = (ImageView) rootView.findViewById(R.id.imvG5);
+                iv.setImageResource(R.drawable.circle_button);
+                iv = (ImageView) rootView.findViewById(R.id.imvG6);
+                iv.setImageResource(R.drawable.circle_button);
+
+
+            }
+        },1500);
+
         //toggleTurn();
 
 //        MainActivity ma = (MainActivity) getActivity();
