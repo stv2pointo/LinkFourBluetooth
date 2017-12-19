@@ -56,11 +56,13 @@ public class Board extends Fragment implements View.OnTouchListener{
     int[][] cells;
     View rootView;
     LinearLayout colA, colB, colC,colD,colE,colF,colG;
+    TextView tvP1Name, tvP2Name;
     LinearLayout buttons_view, scores_view;
     private final int BLACK=1,RED=2;
     int currentPlayer = BLACK;
     int blackScore = 0, redScore = 0;
-    //private boolean p1turn = true;
+    String userName = "NoName", opponentName = "";
+    private boolean isPlayer1 = false;
 
 
     // Intent request codes
@@ -190,6 +192,10 @@ public class Board extends Fragment implements View.OnTouchListener{
         colG.setOnTouchListener(this);
         buttons_view = (LinearLayout) rootView.findViewById(R.id.buttons_view);
         scores_view = (LinearLayout) rootView.findViewById(R.id.scores_view);
+        tvP1Name = (TextView) rootView.findViewById(R.id.tvP1Name);
+        tvP2Name = (TextView) rootView.findViewById(R.id.tvP2Name);
+        MainActivity ma = (MainActivity) getActivity();
+        userName = ma.userName;
         return rootView;
 
     }
@@ -202,42 +208,24 @@ public class Board extends Fragment implements View.OnTouchListener{
             switch (v.getId()) {
                 case R.id.colA:
                     sendMessage("#@~0");
-//                Toast.makeText(getActivity(),"first column selected ",Toast.LENGTH_SHORT).show();
-//                Log.d("test", "first column selected");
-//                    selectedRow = openSpace(0);
-//                    if (selectedRow >= 0) {
-//                        //int row = openSpace(0);
-//                        sendLocation("0" + Integer.toString(selectedRow));
-//                        //Toast.makeText(getActivity(),"first column, row " + Integer.toString(row) + " is filled.",Toast.LENGTH_SHORT).show();
-//                        //Toast.makeText(getActivity(),"first column selected " + v.getId() + " !!!",Toast.LENGTH_SHORT).show();
-//                    }
-
                     break;
                 case R.id.colB:
                     sendMessage("#@~1");
-                    //int row = openSpace(1);
-                    // Toast.makeText(getActivity(),"second column, row " + Integer.toString(row) + " is filled.",Toast.LENGTH_SHORT).show();
-//                    Toast.makeText(getActivity(),"second column selected " + v.getId() + " !!!",Toast.LENGTH_SHORT).show();
-                    break;
+                         break;
                 case R.id.colC:
                     sendMessage("#@~2");
-//                    Toast.makeText(getActivity(),"third column selected " + v.getId() + " !!!",Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.colD:
                     sendMessage("#@~3");
-//                    Toast.makeText(getActivity(),"fourth column selected " + v.getId() + " !!!",Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.colE:
                     sendMessage("#@~4");
-//                    Toast.makeText(getActivity(),"fifth column selected " + v.getId() + " !!!",Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.colF:
                     sendMessage("#@~5");
-//                    Toast.makeText(getActivity(),"sixth column selected " + v.getId() + " !!!",Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.colG:
                     sendMessage("#@~6");
-//                    Toast.makeText(getActivity(),"seventh column selected " + v.getId() + " !!!",Toast.LENGTH_SHORT).show();
                     break;
                 default:
                     break;
@@ -252,8 +240,6 @@ public class Board extends Fragment implements View.OnTouchListener{
         mConversationView = (ListView) view.findViewById(R.id.in);
         mOutEditText = (EditText) view.findViewById(R.id.edit_text_out);
         mSendButton = (Button) view.findViewById(R.id.button_send);
-//        Vibrator vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
-//        vibrator.vibrate(500);
     }
 
     /**
@@ -306,6 +292,8 @@ public class Board extends Fragment implements View.OnTouchListener{
         if (mBluetoothAdapter.getScanMode() !=
                 BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) {
             currentPlayer = BLACK;
+            tvP1Name.setText(userName);
+            isPlayer1 = true;
             Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
             discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 500);
             startActivity(discoverableIntent);
@@ -437,6 +425,9 @@ public class Board extends Fragment implements View.OnTouchListener{
 //                            toggleTurn();
 //                        }
                     }
+                    else if (writeMessage.length() >= 4 && writeMessage.substring(0,3).equals("#@#")) {
+                       Log.d("test", "send out my name: " + writeMessage.substring(3));
+                    }
                     else {
                         mConversationArrayAdapter.add("Me:  " + (writeMessage));
                     }
@@ -450,41 +441,24 @@ public class Board extends Fragment implements View.OnTouchListener{
                     String readMessage = new String(readBuf, 0, msg.arg1);
                     Log.d("test", "writemessage: " + readMessage);
                     Log.d("test", "mconnectedDevice: " + mConnectedDeviceName);
-                    Log.d("test", "msg.tostring(): " + msg.toString());
+//                    Log.d("test", "msg.tostring(): " + msg.toString());
                     if(isMove(readMessage)){
-
-
                         toggleTurn();
                         makeMove(Integer.parseInt(readMessage.substring(readMessage.length()-1)));
-
-                            if(checkForWin()) {
-                                chickenDinner();
-                                paintHandler.postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        unlockBoard();
-                                        toggleTurn();
-                                    }
-                                },2500);
-                            }
-                            else {
-                                unlockBoard();
-                                toggleTurn();
-                            }
-
-
-
-
-
-
-
-//                        int col = Integer.parseInt(readMessage.substring(readMessage.length()-1));
-//                        int row = openSpace(col);
-//                        if (row > 0) {
-//                            paintIt(col,row);
-//                            //unlockBoard();
-//                            toggleTurn();
-//                        }
+                        if(checkForWin()) {
+                            chickenDinner();
+                            paintHandler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    unlockBoard();
+                                    toggleTurn();
+                                }
+                            },2500);
+                        }
+                        else {
+                            unlockBoard();
+                            toggleTurn();
+                        }
                     }
                     else {
                         if(readMessage.equalsIgnoreCase("go")) {
@@ -494,7 +468,18 @@ public class Board extends Fragment implements View.OnTouchListener{
 
 
                         }
-                        mConversationArrayAdapter.add(mConnectedDeviceName + ":  " + readMessage);
+                        else if (readMessage.length() >= 4 && readMessage.substring(0,3).equals("#@#")) {
+                            opponentName += readMessage.substring(3);
+                            setOpponentName(opponentName);
+                            readMessage = opponentName + " is signed in";
+                        }
+                        if(opponentName.length() > 0) {
+                            mConversationArrayAdapter.add(opponentName + ":  " + readMessage);
+                        }
+                        else {
+                            mConversationArrayAdapter.add(mConnectedDeviceName + ":  " + readMessage);
+                        }
+
                     }
                     break;
                 case Constants.MESSAGE_DEVICE_NAME:
@@ -503,6 +488,7 @@ public class Board extends Fragment implements View.OnTouchListener{
                     if (null != activity) {
                         Toast.makeText(activity, "Connected to "
                                 + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
+                        sendMyName();
                     }
                     break;
                 case Constants.MESSAGE_TOAST:
@@ -636,6 +622,7 @@ public class Board extends Fragment implements View.OnTouchListener{
     }
     public void connectPlayer2(){
         currentPlayer = RED;
+        tvP2Name.setText(userName);
         lockBoard();
         buttons_view.setVisibility(View.GONE);
         scores_view.setVisibility(View.VISIBLE);
@@ -846,7 +833,7 @@ public class Board extends Fragment implements View.OnTouchListener{
                 Log.d("test", "paintIt(): issues with currentPlayer");
             }
             Vibrator vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
-            vibrator.vibrate(50);
+            vibrator.vibrate(25);
 
         }catch (Exception e) {
             Log.d("test", e.getMessage());
@@ -939,15 +926,7 @@ public class Board extends Fragment implements View.OnTouchListener{
     }
 
     public boolean checkForWin() {
-//        paintHandler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                checkVertical();
-//                checkHorizontal();
-//                checkDiagLeft();
-//                checkDiagRight();
-//            }
-//        },2200);
+
 
         if(checkVertical()) {
             return true;
@@ -1055,12 +1034,24 @@ public class Board extends Fragment implements View.OnTouchListener{
     }
 
     public void chickenDinner() {
-        Toast.makeText(getActivity(),"Player " + Integer.toString(currentPlayer) + " wins!", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getActivity(),"Player " + Integer.toString(currentPlayer) + " wins!", Toast.LENGTH_SHORT).show();
         if (currentPlayer == BLACK) {
             blackScore ++;
+            if(isPlayer1) {
+                Toast.makeText(getActivity(),userName + " wins!", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(getActivity(),opponentName + " wins!", Toast.LENGTH_SHORT).show();
+            }
         }
         else if (currentPlayer == RED) {
             redScore++;
+            if(isPlayer1 == false) {
+                Toast.makeText(getActivity(),userName + " wins!", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(getActivity(),opponentName + " wins!", Toast.LENGTH_SHORT).show();
+            }
         }
         else {
             Log.d("test", "chicken dinner is broken");
@@ -1170,14 +1161,21 @@ public class Board extends Fragment implements View.OnTouchListener{
 
             }
         },1500);
-
-        //toggleTurn();
-
-//        MainActivity ma = (MainActivity) getActivity();
-//        ma.resetGame();
-
     }
 
+    public void sendMyName() {
+        sendMessage("#@#" + userName);
+    }
+    public void setOpponentName(String opponentName) {
+        if(isPlayer1) {
+            tvP2Name.setText(opponentName);
+        }
+        else{
+            tvP1Name.setText(opponentName);
+        }
+
+
+    }
 }
 
 

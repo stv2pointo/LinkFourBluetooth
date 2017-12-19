@@ -177,6 +177,7 @@ public class BluetoothService {
         mConnectedThread = new ConnectedThread(socket, socketType);
         mConnectedThread.start();
 
+
         // Send the name of the connected device back to the UI Activity
         Message msg = mHandler.obtainMessage(Constants.MESSAGE_DEVICE_NAME);
         Bundle bundle = new Bundle();
@@ -487,10 +488,6 @@ public class BluetoothService {
                     // Send the obtained bytes to the UI Activity
                     mHandler.obtainMessage(Constants.MESSAGE_READ, bytes, -1, buffer)
                             .sendToTarget();
-                    //////////////////////////////////////////////////////////////
-                    //would this work for moves??
-//                    mHandler.obtainMessage(Constants.MOVE_RECEIVE, bytes, -1, buffer)
-//                            .sendToTarget();
                 } catch (IOException e) {
                     Log.d("test", "disconnected");//, e);
                     connectionLost();
