@@ -55,10 +55,6 @@ public class MainActivity extends AppCompatActivity {
         vHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-//                getSupportFragmentManager().beginTransaction()
-//                        .replace(R.id.fragContainer, new Board(),"BF")
-//                        .addToBackStack(null)
-//                        .commit();
                 promptUserName();
             }
         },1500);
@@ -89,43 +85,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-//    public void showHost() {
-//        getSupportFragmentManager().beginTransaction()
-//                .replace(R.id.fragContainer, new Board(),"BF")
-//                .addToBackStack(null)
-//                .commit();
-//
-//        Board board = (Board) getSupportFragmentManager().findFragmentByTag("BF");
-//        if(board != null){
-//            board.ensureDiscoverable();
-//        }
-//
-//
-//    }
-
-//    public void loadBoard() {
-//        getSupportFragmentManager().beginTransaction()
-//                .replace(R.id.fragContainer, new Board(),"BF")
-//                .addToBackStack(null)
-//                .commit();
-//    }
-//    public void join() {
-//        vHandler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                Board board = (Board) getSupportFragmentManager().findFragmentByTag("BF");
-//                if(board != null){
-//                    Log.d("test", "board is not null");
-//                    board.connectPlayer2();
-//                }
-//                else{
-//                    Log.d("test", "board is null");
-//                }
-//            }
-//        },3500);
-//
-//    }
-
     /**
      * this method is required for all devices running api23 +
      * android must programmatically check the permissions for bt
@@ -146,21 +105,20 @@ public class MainActivity extends AppCompatActivity {
 
     private void promptUserName() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("What's your handle?");
+        builder.setTitle("Enter your username: ");
 
-// Set up the input
         final EditText input = new EditText(this);
-// Specify the type of input expected
+
         input.setInputType(InputType.TYPE_CLASS_TEXT);
         builder.setView(input);
         builder.setCancelable(false);
 
-// Set up the buttons
         builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 userName = input.getText().toString();
-                loadBoard();
+                //loadBoard();
+                loadMenu();
             }
         });
 //        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -175,6 +133,13 @@ public class MainActivity extends AppCompatActivity {
     public void loadBoard() {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragContainer, new Board(),"BF")
+                .addToBackStack(null)
+                .commit();
+    }
+
+    public void loadMenu(){
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragContainer, new GameMenu(),"MF")
                 .addToBackStack(null)
                 .commit();
     }

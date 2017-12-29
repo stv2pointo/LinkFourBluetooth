@@ -43,13 +43,6 @@ import static com.stvjuliengmail.linkfourbluetooth.R.id.imvA6;
  */
 public class Board extends Fragment implements View.OnTouchListener{
 
-    //Don't show keyboard on start
-    //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-
-
-//    InputMethodManager mgr = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-//        mgr.hideSoftInputFromWindow(mEditText.getWindowToken(), 0);
-
     //game board stuff
     final Handler paintHandler = new Handler();
     final int COLUMNS = 7, ROWS = 6;
@@ -339,28 +332,6 @@ public class Board extends Fragment implements View.OnTouchListener{
         }
     };
 
-    /**
-     * Updates the status on the action bar.
-     *
-     * @param resId a string resource ID
-     */
-    private void setStatus(int resId) {
-        FragmentActivity activity = getActivity();
-        if (null == activity) {
-            return;
-        }
-        final ActionBar actionBar = activity.getActionBar();
-        if (null == actionBar) {
-            return;
-        }
-        actionBar.setSubtitle(resId);
-    }
-
-    /**
-     * Updates the status on the action bar.
-     *
-     * @param subTitle status
-     */
     private void setStatus(CharSequence subTitle) {
         FragmentActivity activity = getActivity();
         if (null == activity) {
@@ -411,19 +382,6 @@ public class Board extends Fragment implements View.OnTouchListener{
                             if(checkForWin()) {
                                 chickenDinner();
                             }
-
-
-
-
-
-
-//                        int col = Integer.parseInt(writeMessage.substring(writeMessage.length() - 1));
-//                        int row = openSpace(col);
-//                        if (row > 0) {
-//                            paintIt(col,row);
-//                            //lockBoard();
-//                            toggleTurn();
-//                        }
                     }
                     else if (writeMessage.length() >= 4 && writeMessage.substring(0,3).equals("#@#")) {
                        Log.d("test", "send out my name: " + writeMessage.substring(3));
@@ -465,8 +423,6 @@ public class Board extends Fragment implements View.OnTouchListener{
                             long[] pattern = {0,80,100,80};
                             Vibrator vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
                             vibrator.vibrate(pattern,-1);
-
-
                         }
                         else if (readMessage.length() >= 4 && readMessage.substring(0,3).equals("#@#")) {
                             opponentName += readMessage.substring(3);
@@ -479,7 +435,6 @@ public class Board extends Fragment implements View.OnTouchListener{
                         else {
                             mConversationArrayAdapter.add(mConnectedDeviceName + ":  " + readMessage);
                         }
-
                     }
                     break;
                 case Constants.MESSAGE_DEVICE_NAME:
@@ -497,38 +452,15 @@ public class Board extends Fragment implements View.OnTouchListener{
                                 Toast.LENGTH_SHORT).show();
                     }
                     break;
-                case Constants.MOVE_RECEIVE:
-                    Log.d("test", "MOVE_RECEIVE");
-                    byte[] receivedBuffer = (byte[]) msg.obj;
-                    String readMove = new String(receivedBuffer, 0, msg.arg1);////////////////////////////////////////////////////////////////////////
-                    Log.d("test", "received move: " + readMove);
-
-//                    receivedMove = Integer.parseInt(readMove);
-//                    int location = receivedMove;
-//
-//                    if (mIsPlayerOne == true) {
-//                        mInfoTextView.setText(R.string.turn_player_one);
-//                        mIsPlayerOneTurn = true;
-//                        setMove(mGame.PLAYER_TWO, location);
-//                        for (int i=0 ; i < 9 ; ++i) {
-//                            mBoardButtons[i].setClickable(true);
-//                        }
-//                        winnerCheck();
-//                        Log.d(TAG,"Move received");
-//                    } else {
-//                        mInfoTextView.setText(R.string.turn_player_two);
-//                        mIsPlayerOneTurn = false;
-//                        setMove(mGame.PLAYER_ONE, location);
-//                        for (int i=0 ; i < 9 ; ++i) {
-//                            mBoardButtons[i].setClickable(true);
-//                        }
-//                        winnerCheck();
-//                        Log.d(TAG,"Move received");
-//                    }
-                    break;
-                case Constants.MOVE_SEND:
-                    Log.d("test","Move sent");
-                    break;
+//                case Constants.MOVE_RECEIVE:
+//                    Log.d("test", "MOVE_RECEIVE");
+//                    byte[] receivedBuffer = (byte[]) msg.obj;
+//                    String readMove = new String(receivedBuffer, 0, msg.arg1);////////////////////////////////////////////////////////////////////////
+//                    Log.d("test", "received move: " + readMove);
+//                    break;
+//                case Constants.MOVE_SEND:
+//                    Log.d("test","Move sent");
+//                    break;
             }
         }
     };
@@ -578,41 +510,6 @@ public class Board extends Fragment implements View.OnTouchListener{
         mChatService.connect(device, secure);
     }
 
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        inflater.inflate(R.menu.bt_menu, menu);
-//    }
-
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-////            case R.id.secure_connect_scan: {
-////                // Launch the DeviceListActivity to see devices and do scan
-////
-////                Log.d("test", "connect called");
-////                //send a vibrate for no good reason
-////
-////
-////                Intent serverIntent = new Intent(getActivity(), DeviceListActivity.class);
-////                startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_SECURE);
-////                return true;
-////            }
-//            case R.id.insecure_connect_scan: {
-//                // Launch the DeviceListActivity to see devices and do scan
-//                currentPlayer = RED;
-//                lockBoard();
-//                Intent serverIntent = new Intent(getActivity(), DeviceListActivity.class);
-//                startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_INSECURE);
-//                return true;
-//            }
-//            case R.id.discoverable: {
-//                // Ensure this device is discoverable by others
-//                ensureDiscoverable();
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
     public void connectPlayer1() {
         ensureDiscoverable();
         currentPlayer = BLACK;
@@ -824,7 +721,6 @@ public class Board extends Fragment implements View.OnTouchListener{
         try {
             if (currentPlayer == BLACK) {
                 iv.setImageResource(R.drawable.black);
-//                toggleTurn();
             }
             else if(currentPlayer == RED){
                 iv.setImageResource(R.drawable.red);
@@ -850,23 +746,6 @@ public class Board extends Fragment implements View.OnTouchListener{
         else {
             Log.d("test", "toggle turn is busted");
         }
-    }
-
-    private void sendLocation(String message) {
-        // Check that we're actually connected before trying anything
-        if (mChatService.getState() != BluetoothService.STATE_CONNECTED) {
-            Toast.makeText(getActivity(), "not connected", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        // Check that there's actually something to send.
-        if (message.length() > 0) {
-            // Get the message bytes and tell the ChatService to send move
-            byte[] send = message.getBytes();
-            mChatService.sendMove(send);
-        }
-        mOutStringBuffer.setLength(0);
-        //editText_send.setText(myOutStringBuffer);
-
     }
 
     public boolean isMove(String str) {
@@ -1166,6 +1045,7 @@ public class Board extends Fragment implements View.OnTouchListener{
     public void sendMyName() {
         sendMessage("#@#" + userName);
     }
+
     public void setOpponentName(String opponentName) {
         if(isPlayer1) {
             tvP2Name.setText(opponentName);

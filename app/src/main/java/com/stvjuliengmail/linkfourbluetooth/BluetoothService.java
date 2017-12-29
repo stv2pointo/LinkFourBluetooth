@@ -236,17 +236,17 @@ public class BluetoothService {
         r.write(out);
     }
 
-    public void sendMove (byte[] out) {
-        // Create temporary object
-        ConnectedThread r;
-        // Synchronize a copy of the ConnectedThread
-        synchronized (this) {
-            if (mState != STATE_CONNECTED) return;
-            r = mConnectedThread;
-        }
-        // Perform the write unsynchronized
-        r.sendMove(out);
-    }
+//    public void sendMove (byte[] out) {
+//        // Create temporary object
+//        ConnectedThread r;
+//        // Synchronize a copy of the ConnectedThread
+//        synchronized (this) {
+//            if (mState != STATE_CONNECTED) return;
+//            r = mConnectedThread;
+//        }
+//        // Perform the write unsynchronized
+//        r.sendMove(out);
+//    }
 
     /**
      * Indicate that the connection attempt failed and notify the UI Activity.
@@ -513,16 +513,16 @@ public class BluetoothService {
             }
         }
 
-        public void sendMove(byte[] myLocation) {
-            try {
-                mmOutStream.write(myLocation); ///////////////////////////////////////// send move, location ?????
-                // mmOutStream.sendMove(myLocation);output streams don't have a sendMove :(
-
-                mHandler.obtainMessage(Constants.MOVE_SEND,-1,-1, myLocation).sendToTarget();
-            } catch (IOException e) {
-                Log.d("test", "Error occurred when sending move "+ e.getMessage());
-            }
-        }
+//        public void sendMove(byte[] myLocation) {
+//            try {
+//                mmOutStream.write(myLocation);
+//                // mmOutStream.sendMove(myLocation);output streams don't have a sendMove :(
+//
+//                mHandler.obtainMessage(Constants.MOVE_SEND,-1,-1, myLocation).sendToTarget();
+//            } catch (IOException e) {
+//                Log.d("test", "Error occurred when sending move "+ e.getMessage());
+//            }
+//        }
 
         public void cancel() {
             try {

@@ -53,7 +53,7 @@ tools:context="com.stvjuliengmail.linkfourbluetooth.Board">
                 android:textColor="#FFFFFF"
                 android:textSize="25dp" />
         </LinearLayout>
-        </LinearLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/scores_view"
@@ -76,7 +76,8 @@ tools:context="com.stvjuliengmail.linkfourbluetooth.Board">
                 android:gravity="center|center_horizontal"
                 android:text="Player 1"
                 android:textSize="25dp"
-                android:textColor="@color/colorBlack"/>
+                android:textColor="@color/colorBlack"
+                android:textStyle="bold"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -100,7 +101,8 @@ tools:context="com.stvjuliengmail.linkfourbluetooth.Board">
                 android:gravity="center|center_horizontal"
                 android:text="Player 2"
                 android:textColor="@color/colorRed"
-                android:textSize="25dp"/>
+                android:textSize="27dp"
+                android:textStyle="bold"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -451,16 +453,18 @@ tools:context="com.stvjuliengmail.linkfourbluetooth.Board">
             <EditText
                 android:id="@+id/edit_text_out"
                 android:layout_width="0dp"
-                android:layout_height="60dp"
-
+                android:layout_height="50dp"
+                android:hint="Type 'go' to buzz your opponent"
                 android:layout_weight="3" />
 
             <Button
                 android:id="@+id/button_send"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="60dp"
+                android:layout_height="50dp"
                 android:text="Send" />
+
+
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
