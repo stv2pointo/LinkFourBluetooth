@@ -137,6 +137,13 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
+    public void loadSinglePlayerBoard(){
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragContainer, new SinglePlayerBoard(),"SPF")
+                .addToBackStack(null)
+                .commit();
+    }
+
     public void loadMenu(){
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragContainer, new GameMenu(),"MF")

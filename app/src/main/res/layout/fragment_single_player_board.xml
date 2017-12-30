@@ -1,0 +1,447 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/grey_bg"
+
+    android:orientation="vertical"
+    android:padding="5dp"
+    tools:context="com.stvjuliengmail.linkfourbluetooth.SinglePlayerBoard">
+
+    <LinearLayout
+        android:id="@+id/scores_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvP1Name"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center|center_horizontal"
+                android:text="Player 1"
+                android:textColor="@color/colorBlack"
+                android:textSize="25dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvP1Score"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1.5"
+                android:gravity="center|center_horizontal"
+                android:text="0"
+                android:textSize="30dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvP2Name"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center|center_horizontal"
+                android:text="Computer"
+                android:textColor="@color/colorRed"
+                android:textSize="27dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvP2Score"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1.5"
+                android:gravity="center|center_horizontal"
+                android:text="0"
+                android:textSize="30dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="6"
+        android:orientation="horizontal"
+        android:splitMotionEvents="false">
+
+        <LinearLayout
+            android:id="@+id/colA"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/woodgrain"
+            android:clickable="true"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imvA6"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/circle_button" />
+
+            <ImageView
+                android:id="@+id/imvA5"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/circle_button" />
+
+            <ImageView
+                android:id="@+id/imvA4"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/circle_button" />
+
+            <ImageView
+                android:id="@+id/imvA3"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/circle_button" />
+
+            <ImageView
+                android:id="@+id/imvA2"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/circle_button" />
+
+            <ImageView
+                android:id="@+id/imvA1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/circle_button" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/colB"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/woodgrain"
+            android:clickable="true"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imvB6"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/circle_button" />
+
+            <ImageView
+                android:id="@+id/imvB5"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/circle_button" />
+
+            <ImageView
+                android:id="@+id/imvB4"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/circle_button" />
+
+            <ImageView
+                android:id="@+id/imvB3"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/circle_button" />
+
+            <ImageView
+                android:id="@+id/imvB2"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/circle_button" />
+
+            <ImageView
+                android:id="@+id/imvB1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/circle_button" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/colC"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/woodgrain"
+            android:clickable="true"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imvC6"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/circle_button" />
+
+            <ImageView
+                android:id="@+id/imvC5"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/circle_button" />
+
+            <ImageView
+                android:id="@+id/imvC4"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/circle_button" />
+
+            <ImageView
+                android:id="@+id/imvC3"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/circle_button" />
+
+            <ImageView
+                android:id="@+id/imvC2"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/circle_button" />
+
+            <ImageView
+                android:id="@+id/imvC1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/circle_button" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/colD"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/woodgrain"
+            android:clickable="true"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imvD6"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/circle_button" />
+
+            <ImageView
+                android:id="@+id/imvD5"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/circle_button" />
+
+            <ImageView
+                android:id="@+id/imvD4"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/circle_button" />
+
+            <ImageView
+                android:id="@+id/imvD3"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/circle_button" />
+
+            <ImageView
+                android:id="@+id/imvD2"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/circle_button" />
+
+            <ImageView
+                android:id="@+id/imvD1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/circle_button" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/colE"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/woodgrain"
+            android:clickable="true"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imvE6"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/circle_button" />
+
+            <ImageView
+                android:id="@+id/imvE5"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/circle_button" />
+
+            <ImageView
+                android:id="@+id/imvE4"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/circle_button" />
+
+            <ImageView
+                android:id="@+id/imvE3"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/circle_button" />
+
+            <ImageView
+                android:id="@+id/imvE2"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/circle_button" />
+
+            <ImageView
+                android:id="@+id/imvE1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/circle_button" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/colF"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/woodgrain"
+            android:clickable="true"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imvF6"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/circle_button" />
+
+            <ImageView
+                android:id="@+id/imvF5"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/circle_button" />
+
+            <ImageView
+                android:id="@+id/imvF4"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/circle_button" />
+
+            <ImageView
+                android:id="@+id/imvF3"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/circle_button" />
+
+            <ImageView
+                android:id="@+id/imvF2"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/circle_button" />
+
+            <ImageView
+                android:id="@+id/imvF1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/circle_button" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/colG"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/woodgrain"
+            android:clickable="true"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imvG6"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/circle_button" />
+
+            <ImageView
+                android:id="@+id/imvG5"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/circle_button" />
+
+            <ImageView
+                android:id="@+id/imvG4"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/circle_button" />
+
+            <ImageView
+                android:id="@+id/imvG3"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/circle_button" />
+
+            <ImageView
+                android:id="@+id/imvG2"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/circle_button" />
+
+            <ImageView
+                android:id="@+id/imvG1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/circle_button" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
+
+

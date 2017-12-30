@@ -32,16 +32,28 @@ public class GameMenu extends Fragment {
         btnSinglePlayer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Single player clicked", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), "Single player clicked", Toast.LENGTH_SHORT).show();
+                loadSinglePlayer();
             }
         });
         btnTwoPlayerBT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Two player clicked", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), "Two player clicked", Toast.LENGTH_SHORT).show();
+                loadTwoPlayerBT();
             }
         });
         return rootView;
+    }
+
+    public void loadTwoPlayerBT(){
+        MainActivity mainActivity = (MainActivity)getActivity();
+        mainActivity.loadBoard();
+    }
+
+    public void loadSinglePlayer(){
+        MainActivity mainActivity = (MainActivity)getActivity();
+        mainActivity.loadSinglePlayerBoard();
     }
 
 }
