@@ -30,6 +30,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Random;
+
 import static com.stvjuliengmail.linkfourbluetooth.R.id.imvA6;
 
 
@@ -121,60 +123,25 @@ public class SinglePlayerBoard extends Fragment implements View.OnTouchListener{
             int selectedRow;
             switch (v.getId()) {
                 case R.id.colA:
-                    makeMove(0);
-                    lockBoard();
-                    if(checkForWin()) {
-                        chickenDinner();
-                    }
-                    playAI();
+                    play(0);
                     break;
                 case R.id.colB:
-                    makeMove(1);
-                    lockBoard();
-                    if(checkForWin()) {
-                        chickenDinner();
-                    }
-                    playAI();
+                    play(1);
                     break;
                 case R.id.colC:
-                    makeMove(2);
-                    lockBoard();
-                    if(checkForWin()) {
-                        chickenDinner();
-                    }
-                    playAI();
+                    play(2);
                     break;
                 case R.id.colD:
-                    makeMove(3);
-                    lockBoard();
-                    if(checkForWin()) {
-                        chickenDinner();
-                    }
-                    playAI();
+                    play(3);
                     break;
                 case R.id.colE:
-                    makeMove(4);
-                    lockBoard();
-                    if(checkForWin()) {
-                        chickenDinner();
-                    }
-                    playAI();
+                    play(4);
                     break;
                 case R.id.colF:
-                    makeMove(5);
-                    lockBoard();
-                    if(checkForWin()) {
-                        chickenDinner();
-                    }
-                    playAI();
+                    play(5);
                     break;
                 case R.id.colG:
-                    makeMove(6);
-                    lockBoard();
-                    if(checkForWin()) {
-                        chickenDinner();
-                    }
-                    playAI();
+                    play(6);
                     break;
                 default:
                     break;
@@ -182,6 +149,26 @@ public class SinglePlayerBoard extends Fragment implements View.OnTouchListener{
 
         }
         return false;
+    }
+
+    public void play(int col){
+        makeMove(col);
+        lockBoard();
+        if(checkForWin()) {
+            chickenDinner();
+        }
+        else{
+            toggleTurn();
+            playAI();
+            if(checkForWin()){
+                chickenDinner();
+            }
+            else{
+                toggleTurn();
+                unlockBoard();
+            }
+        }
+
     }
 
     @Override
@@ -226,7 +213,15 @@ public class SinglePlayerBoard extends Fragment implements View.OnTouchListener{
     }
 
     public void playAI() {
-        Toast.makeText(getActivity()," ai played", Toast.LENGTH_SHORT).show();
+        Random rand = new Random();
+        int col = -1;
+        int row = -1;
+        while(row < 0){
+            col = rand.nextInt(COLUMNS);
+            row = openSpace(col);
+        }
+        makeMove(col);
+        Toast.makeText(getActivity()," ai played " + Integer.toString(col), Toast.LENGTH_SHORT).show();
     }
 
     public void paintIt(int col, int row) {
@@ -237,7 +232,6 @@ public class SinglePlayerBoard extends Fragment implements View.OnTouchListener{
                 switch (row){
                     case 0:
                         iv = (ImageView) rootView.findViewById(R.id.imvA1);
-
                         break;
                     case 1:
                         iv = (ImageView) rootView.findViewById(R.id.imvA2);
