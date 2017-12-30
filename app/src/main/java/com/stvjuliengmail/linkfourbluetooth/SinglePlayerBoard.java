@@ -110,6 +110,7 @@ public class SinglePlayerBoard extends Fragment implements View.OnTouchListener{
         tvP2Name = (TextView) rootView.findViewById(R.id.tvP2Name);
         MainActivity ma = (MainActivity) getActivity();
         userName = ma.userName;
+        tvP1Name.setText(userName);
         return rootView;
 
     }
@@ -220,7 +221,6 @@ public class SinglePlayerBoard extends Fragment implements View.OnTouchListener{
                 paintIt(col,i);
                 return i;
             }
-
         }
         return row;
     }
@@ -421,7 +421,6 @@ public class SinglePlayerBoard extends Fragment implements View.OnTouchListener{
         }catch (Exception e) {
             Log.d("test", e.getMessage());
         }
-
     }
 
     public void toggleTurn() {
@@ -686,8 +685,6 @@ public class SinglePlayerBoard extends Fragment implements View.OnTouchListener{
                 iv.setImageResource(R.drawable.circle_button);
                 iv = (ImageView) rootView.findViewById(R.id.imvG6);
                 iv.setImageResource(R.drawable.circle_button);
-
-
             }
         },1500);
     }

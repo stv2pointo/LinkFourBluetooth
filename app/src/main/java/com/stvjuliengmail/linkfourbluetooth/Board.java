@@ -1054,7 +1054,6 @@ public class Board extends Fragment implements View.OnTouchListener{
             tvP1Name.setText(opponentName);
         }
 
-
     }
 }
 
